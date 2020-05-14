@@ -47,6 +47,7 @@ public class RunSQLAction extends Action {
   public void run(ActionContext context) throws Exception {
     FailureCollector collector = context.getFailureCollector();
     config.validate(collector);
+    collector.getOrThrowException();
 
     SnowflakeAccessor snowflakeAccessor = new SnowflakeAccessor(config);
     snowflakeAccessor.runSQL(config.getQuery());
