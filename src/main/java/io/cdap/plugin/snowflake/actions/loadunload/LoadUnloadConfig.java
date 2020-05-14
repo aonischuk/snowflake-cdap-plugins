@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  * Config for load and unload from Snowflake actions.
  */
 public abstract class LoadUnloadConfig extends BaseSnowflakeConfig {
+  private static final String PROPERTY_USE_CLOUD_PROVIDER_PARAMETERS = "useCloudProviderParameters";
   private static final String PROPERTY_FILE_FORMAT_FILTERING_POLICY = "fileFormatFilteringPolicy";
   private static final String PROPERTY_CLOUD_PROVIDER = "cloudProvider";
   private static final String PROPERTY_ENCRYPTION_TYPE = "encryptionType";
@@ -37,6 +38,7 @@ public abstract class LoadUnloadConfig extends BaseSnowflakeConfig {
   /**
    * Cloud provider parameters
    */
+  @Name(PROPERTY_USE_CLOUD_PROVIDER_PARAMETERS)
   @Description("If true, plugin will use specified Cloud Provider Parameters.")
   @Macro
   private Boolean useCloudProviderParameters;
@@ -232,8 +234,9 @@ public abstract class LoadUnloadConfig extends BaseSnowflakeConfig {
         .withConfigProperty(PROPERTY_FORMAT_TYPE);
     }
 
-    if (useCloudProviderParameters) {
-      if (Strings.isNullOrEmpty(cloudProvider) || getCloudProvider().equals(CloudProvider.NONE)) {
+    if (!containsMacro(PROPERTY_USE_CLOUD_PROVIDER_PARAMETERS) && useCloudProviderParameters) {
+      if (!containsMacro(PROPERTY_USE_CLOUD_PROVIDER_PARAMETERS) &&
+        (Strings.isNullOrEmpty(cloudProvider) || getCloudProvider().equals(CloudProvider.NONE))) {
         collector.addFailure("'Cloud Provider' property is not set.", null)
           .withConfigProperty(PROPERTY_CLOUD_PROVIDER);
       }

@@ -46,6 +46,7 @@ public class LoadAction extends Action {
   public void run(ActionContext context) throws Exception {
     FailureCollector collector = context.getFailureCollector();
     config.validate(collector);
+    collector.getOrThrowException();
 
     LoadActionSnowflakeAccessor snowflakeLoadActionAccessor = new LoadActionSnowflakeAccessor(config);
     snowflakeLoadActionAccessor.runCopy();

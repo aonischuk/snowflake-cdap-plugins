@@ -93,7 +93,7 @@ public abstract class LoadUnloadSnowflakeAccessor extends SnowflakeAccessor {
           }
           break;
         default:
-          throw new RuntimeException(String.format("Unknown value for cloudProvider: '%s'",
+          throw new IllegalStateException(String.format("Unknown value for cloudProvider: '%s'",
                                                    config.getCloudProvider()));
       }
       sb.append(getFilesEncryptionParams());

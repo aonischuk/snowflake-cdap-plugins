@@ -54,7 +54,7 @@ Example:
 SELECT name, address, phone from s3://bucket/path
 ```
 
-**Destination Table:** Snowflake table to load data into.
+**Destination Table:** Snowflake table to load data into. Needs to be present.
 
 ### Credentials
 
@@ -93,7 +93,7 @@ More information on this section can be found on
 Required only for loading from an external private/protected cloud storage location; not required for public 
 buckets/containers.
 
-**Cloud Provider:** Cloud provider name. Possible values: `azure`, `gcs`, `s3`.
+**Cloud Provider:** Cloud provider name. Possible values: `GCP`, `AWS`, `Microsoft Azure`.
 
 **Storage Integration:** Specifies the name of the storage integration used to delegate authentication responsibility 
 for external cloud storage to a Snowflake identity and access management (IAM) entity. For more details, see 
