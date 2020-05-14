@@ -51,7 +51,7 @@ public abstract class LoadUnloadSnowflakeAccessor extends SnowflakeAccessor {
         sb.append(String.format(" FILE_FORMAT = ( FORMAT_NAME = '%s' )", config.getFormatName()));
         break;
       default:
-        throw new RuntimeException(String.format("Unknown value for fileFormatFilteringPolicy: '%s'",
+        throw new IllegalStateException(String.format("Unknown value for fileFormatFilteringPolicy: '%s'",
                                                  config.getFileFormatFilteringPolicy()));
     }
 
@@ -124,7 +124,7 @@ public abstract class LoadUnloadSnowflakeAccessor extends SnowflakeAccessor {
         case AWS_SSE_S3:
           break;
         default:
-          throw new RuntimeException(String.format("Unknown value for encryptionType: '%s'",
+          throw new IllegalStateException(String.format("Unknown value for encryptionType: '%s'",
                                                    config.getEncryptionType()));
       }
 
