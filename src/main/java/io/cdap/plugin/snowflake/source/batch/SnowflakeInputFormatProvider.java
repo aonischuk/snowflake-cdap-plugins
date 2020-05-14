@@ -30,7 +30,7 @@ public class SnowflakeInputFormatProvider implements InputFormatProvider {
 
   public static final String PROPERTY_CONFIG_JSON = "cdap.snowflake.source.config";
 
-  private static final Gson GSON = new GsonBuilder().create();
+  private static final Gson GSON = new Gson();
   private final Map<String, String> conf;
 
   public SnowflakeInputFormatProvider(SnowflakeBatchSourceConfig config) {

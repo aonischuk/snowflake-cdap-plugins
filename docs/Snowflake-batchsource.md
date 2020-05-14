@@ -62,3 +62,35 @@ For more info see [Introduction to OAuth in Snowflake](https://docs.snowflake.co
 snowflake.
 
 **Connection Arguments:** List of arbitrary string tag/value pairs as connection arguments. See: [JDBC Driver Connection String.](https://docs.snowflake.com/en/user-guide/jdbc-configure.html#jdbc-driver-connection-string)
+
+
+Data Types Mapping
+----------
+
+| Snowflake Data Types           | CDAP Schema Data Type | Comment                                                   |
+| ------------------------------ | --------------------- | --------------------------------------------------------- |
+| NUMBER                         | decimal               | Default precision and scale are (38,0).                   |
+| DECIMAL                        | decimal               | Synonymous with NUMBER.                                   |
+| NUMERIC                        | decimal               | Synonymous with NUMBER.                                   |
+| INT, INTEGER, BIGINT, SMALLINT | decimal               | Synonymous with NUMBER, except that precision and scale cannot be specified (i.e. always defaults to NUMBER(38, 0)).|
+| FLOAT, FLOAT4, FLOAT8          | double                | Snowflake uses double-precision (64 bit) IEEE 754 floating point numbers.|
+| DOUBLE                         | double                | Synonymous with FLOAT.                                    |
+| DOUBLE PRECISION               | double                | Synonymous with FLOAT.                                    |
+| REAL                           | double                | Synonymous with FLOAT.                                    |
+| VARCHAR                        | string                | Default (and maximum) is 16,777,216 bytes.                |
+| CHAR, CHARACTER                | string                | Synonymous with VARCHAR except default length is VARCHAR. |
+| STRING                         | string                | Synonymous with VARCHAR.                                  |
+| TEXT                           | string                | Synonymous with VARCHAR.                                  |
+| BINARY                         | bytes                 |                                                           |
+| VARBINARY                      | bytes                 | Synonymous with BINARY.                                   |
+| BOOLEAN                        | boolean               |                                                           |
+| DATE                           | date                  |                                                           |
+| DATETIME                       | timestamp             | Alias for TIMESTAMP_NTZ                                   |
+| TIME                           | time                  |                                                           |
+| TIMESTAMP                      | timestamp/string      | Alias for one of the TIMESTAMP variations (TIMESTAMP_NTZ by default).|
+| TIMESTAMP_LTZ                  | timestamp             | TIMESTAMP with local time zone; time zone, if provided, is not stored.|
+| TIMESTAMP_NTZ                  | timestamp             | TIMESTAMP with no time zone; time zone, if provided, is not stored.|
+| TIMESTAMP_TZ                   | string                | TIMESTAMP with time zone.                                 |
+| VARIANT                        | string                | A tagged universal type, which can store values of any other type, including OBJECT and ARRAY, up to a maximum size of 16 MB compressed.                                    |
+| OBJECT                         | string                | This will return a json with the data |
+| ARRAY                          | string                | This will return a json with the data |                                                  |

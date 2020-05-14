@@ -25,8 +25,6 @@ import io.cdap.plugin.snowflake.common.exception.ConnectionTimeoutException;
 import io.cdap.plugin.snowflake.common.util.QueryUtil;
 import net.snowflake.client.jdbc.SnowflakeBasicDataSource;
 import org.apache.http.impl.client.HttpClients;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -47,7 +45,7 @@ import java.util.Properties;
  */
 public class SnowflakeAccessor {
   private static final String APPLICATION_NAME = "CDAP";
-  private static final int LIMIT_ROWS = 5;
+  private static final int LIMIT_ROWS = 1;
 
   private final BaseSnowflakeConfig config;
   protected final SnowflakeBasicDataSource dataSource;
@@ -63,12 +61,10 @@ public class SnowflakeAccessor {
          PreparedStatement populateStmt = connection.prepareStatement(query);) {
       populateStmt.execute();
     } catch (SQLException e) {
-      throw new IOException(String.format("Statement '%s' failed.", query), e);
+      throw new IOException(String.format("Statement '%s' failed due to '%s'", query, e.getMessage()), e);
     }
 
   }
-
-  private static final Logger LOG = LoggerFactory.getLogger(SnowflakeAccessor.class);
 
   /**
    * Returns field descriptors for specified import query.
