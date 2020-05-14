@@ -16,7 +16,6 @@
 package io.cdap.plugin.snowflake.sink.batch;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.RecordWriter;
@@ -34,7 +33,7 @@ import java.io.InputStream;
  */
 public class SnowflakeRecordWriter extends RecordWriter<NullWritable, CSVRecord> {
   private static final Logger LOG = LoggerFactory.getLogger(SnowflakeRecordWriter.class);
-  private static final Gson GSON = new GsonBuilder().create();
+  private static final Gson GSON = new Gson();
 
   private final CSVBuffer csvBuffer;
   private final CSVBuffer csvBufferSizeCheck;
@@ -69,8 +68,9 @@ public class SnowflakeRecordWriter extends RecordWriter<NullWritable, CSVRecord>
 
   private void submitCurrentBatch() throws IOException {
     if (csvBuffer.getRecordsCount() != 0) {
-      InputStream csvInputStream = new ByteArrayInputStream(csvBuffer.getByteArray());
-      snowflakeAccessor.uploadStream(csvInputStream, destinationStagePath);
+      try (InputStream csvInputStream = new ByteArrayInputStream(csvBuffer.getByteArray())) {
+        snowflakeAccessor.uploadStream(csvInputStream, destinationStagePath);
+      }
 
       csvBuffer.reset();
     }

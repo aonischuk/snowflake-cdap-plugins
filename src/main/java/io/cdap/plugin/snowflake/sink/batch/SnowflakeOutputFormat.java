@@ -37,7 +37,7 @@ import java.util.UUID;
 public class SnowflakeOutputFormat extends OutputFormat<NullWritable, CSVRecord> {
 
   private static final Logger LOG = LoggerFactory.getLogger(SnowflakeOutputFormat.class);
-  private static final Gson GSON = new GsonBuilder().create();
+  private static final Gson GSON = new Gson();
 
   private static final String DESTINATION_STAGE_PATH = "@~/cdap_stage/sinkoutput" + UUID.randomUUID() + "/";
   public static final String DESTINATION_STAGE_PATH_PROPERTY = "cdap.dest.stage.path";

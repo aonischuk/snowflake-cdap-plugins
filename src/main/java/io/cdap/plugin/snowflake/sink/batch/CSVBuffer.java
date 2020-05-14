@@ -29,7 +29,6 @@ import java.nio.charset.StandardCharsets;
  */
 public class CSVBuffer implements Closeable {
   private static final CSVFormat csvFormat = CSVFormat.DEFAULT
-    //.withQuoteMode(QuoteMode.ALL)
     .withAllowMissingColumnNames(false);
 
   private CSVPrinter csvPrinter;

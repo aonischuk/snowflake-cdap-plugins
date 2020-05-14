@@ -98,6 +98,11 @@ public class SnowflakeSinkConfig extends BaseSnowflakeConfig {
    * @param schema input schema to check
    */
   private void validateInputSchema(Schema schema, FailureCollector failureCollector) {
+    // schema can be null in case it is a macro
+    if (schema == null) {
+      return;
+    }
+
     SnowflakeAccessor snowflakeAccessor = new SnowflakeAccessor(this);
     Schema expectedSchema = SchemaHelper.getSchema(snowflakeAccessor, String.format(GET_FIELDS_QUERY, tableName));
 
