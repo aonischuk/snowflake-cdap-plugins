@@ -272,7 +272,20 @@ public class BaseSnowflakeConfig extends PluginConfig {
     validateConnection(collector);
   }
 
+  public boolean canConnect() {
+    return (!containsMacro(PROPERTY_DATABASE) && !containsMacro(PROPERTY_SCHEMA_NAME)
+      && !containsMacro(PROPERTY_ACCOUNT_NAME) && !containsMacro(PROPERTY_USERNAME)
+      && !containsMacro(PROPERTY_PASSWORD) && !containsMacro(PROPERTY_WAREHOUSE)
+      && !containsMacro(PROPERTY_ROLE) && !containsMacro(PROPERTY_CLIENT_ID)
+      && !containsMacro(PROPERTY_CLIENT_SECRET) && !containsMacro(PROPERTY_REFRESH_TOKEN)
+      && !containsMacro(PROPERTY_PRIVATE_KEY));
+  }
+
   protected void validateConnection(FailureCollector collector) {
+    if (!canConnect()) {
+      return;
+    }
+
     try {
       SnowflakeAccessor snowflakeAccessor = new SnowflakeAccessor(this);
       snowflakeAccessor.checkConnection();
