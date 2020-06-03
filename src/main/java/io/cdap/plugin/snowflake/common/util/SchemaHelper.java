@@ -56,6 +56,15 @@ public class SchemaHelper {
   private SchemaHelper() {
   }
 
+  public static Schema getSchema(SnowflakeBatchSourceConfig config, FailureCollector collector) {
+    if (!config.canConnect()) {
+      return null;
+    }
+
+    SnowflakeSourceAccessor snowflakeSourceAccessor = new SnowflakeSourceAccessor(config);
+    return getSchema(snowflakeSourceAccessor, config.getSchema(), collector, config.getImportQuery());
+  }
+
   public static Schema getSchema(SnowflakeSourceAccessor snowflakeAccessor, String schema,
                                  FailureCollector collector, String importQuery) {
     try {
@@ -66,7 +75,7 @@ public class SchemaHelper {
           throw new SchemaParseException(e);
         }
       }
-      return getSchema(snowflakeAccessor, importQuery);
+      return Strings.isNullOrEmpty(importQuery) ? null : getSchema(snowflakeAccessor, importQuery);
     } catch (SchemaParseException e) {
       collector.addFailure(String.format("Unable to retrieve output schema. Reason: '%s'", e.getMessage()),
                            null)

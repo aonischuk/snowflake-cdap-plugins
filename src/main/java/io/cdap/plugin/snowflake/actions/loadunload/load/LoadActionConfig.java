@@ -112,7 +112,7 @@ public class LoadActionConfig extends LoadUnloadConfig {
     super.validate(collector);
     if (Strings.isNullOrEmpty(sourcePath) && Strings.isNullOrEmpty(sourceQuery)) {
       collector.addFailure("'Source Path' and 'Source Query' properties are not set.",
-                           "Please set at least one of given properties")
+                           "Please set at least one of given properties.")
         .withConfigProperty(PROPERTY_SOURCE_PATH)
         .withConfigProperty(PROPERTY_SOURCE_QUERY);
     }

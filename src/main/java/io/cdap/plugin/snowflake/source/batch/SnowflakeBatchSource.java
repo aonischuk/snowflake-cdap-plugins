@@ -58,9 +58,7 @@ public class SnowflakeBatchSource extends BatchSource<NullWritable, Map<String, 
     FailureCollector failureCollector = pipelineConfigurer.getStageConfigurer().getFailureCollector();
     config.validate(failureCollector);
 
-    SnowflakeSourceAccessor snowflakeAccessor = new SnowflakeSourceAccessor(config);
-    Schema schema = SchemaHelper.getSchema(snowflakeAccessor, config.getSchema(),
-                                           failureCollector, config.getImportQuery());
+    Schema schema = SchemaHelper.getSchema(config, failureCollector);
     failureCollector.getOrThrowException();
 
     pipelineConfigurer.getStageConfigurer().setOutputSchema(schema);
@@ -71,9 +69,7 @@ public class SnowflakeBatchSource extends BatchSource<NullWritable, Map<String, 
     FailureCollector failureCollector = context.getFailureCollector();
     config.validate(failureCollector);
 
-    SnowflakeSourceAccessor snowflakeAccessor = new SnowflakeSourceAccessor(config);
-    Schema schema = SchemaHelper.getSchema(snowflakeAccessor, config.getSchema(),
-                                           failureCollector, config.getImportQuery());
+    Schema schema = SchemaHelper.getSchema(config, failureCollector);
     failureCollector.getOrThrowException();
 
     LineageRecorder lineageRecorder = new LineageRecorder(context, config.getReferenceName());

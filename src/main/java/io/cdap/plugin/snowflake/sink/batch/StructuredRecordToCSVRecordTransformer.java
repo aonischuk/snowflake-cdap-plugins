@@ -31,6 +31,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
 
 /**
  * Transforms a {@link StructuredRecord} to a {@link CSVRecord}
@@ -61,6 +62,7 @@ public class StructuredRecordToCSVRecordTransformer {
    * @param record
    * @return string representing the value in format, which can be understood by Snowflake
    */
+  @Nullable
   public static String convertSchemaFieldToString(Object value, Schema.Field field, StructuredRecord record)
     throws IOException {
     // don't convert null to avoid NPE
@@ -101,7 +103,8 @@ public class StructuredRecordToCSVRecordTransformer {
           return record.getDecimal(field.getName()).toString();
         default:
           throw new IllegalArgumentException(
-            String.format("Field '%s' is of unsupported type '%s'", field.getName(), logicalType.getToken()));
+            String.format("Field '%s' is of unsupported type '%s'", fieldSchema.getDisplayName(),
+                          logicalType.getToken()));
       }
     }
 

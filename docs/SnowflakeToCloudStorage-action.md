@@ -88,7 +88,7 @@ More information on this section can be found on
 path. Required only for unloading to external private/protected cloud storage location; not required for public 
 buckets/containers.
 
-**Cloud Provider:** Cloud provider name. Possible values: `azure`, `gcs`, `s3`.
+**Cloud Provider:** Cloud provider name. Possible values: `GCP`, `AWS`, `Microsoft Azure`.
 
 **Storage Integration:** Specifies the name of the storage integration used to delegate authentication responsibility 
 for external cloud storage to a Snowflake identity and access management (IAM) entity. For more details, see 

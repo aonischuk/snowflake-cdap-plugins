@@ -49,6 +49,7 @@ public class SnowflakeBatchSourceConfig extends BaseSnowflakeConfig {
   @Name(PROPERTY_SCHEMA)
   @Nullable
   @Description("Output schema for the source.")
+  @Macro
   private String schema;
 
   public SnowflakeBatchSourceConfig(String referenceName, String accountName, String database,

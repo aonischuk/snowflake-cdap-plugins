@@ -17,10 +17,7 @@ package io.cdap.plugin.snowflake.sink.batch;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import io.cdap.cdap.api.data.batch.OutputFormatProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -28,9 +25,8 @@ import java.util.Map;
  *  Provides SnowflakeOutputFormat's class name and configuration.
  */
 public class SnowflakeOutputFormatProvider implements OutputFormatProvider {
-  private static final Logger LOG = LoggerFactory.getLogger(SnowflakeOutputFormatProvider.class);
   public static final String PROPERTY_CONFIG_JSON = "cdap.snowflake.source.config";
-  private static final Gson GSON = new GsonBuilder().create();
+  private static final Gson GSON = new Gson();
 
   private final Map<String, String> configMap;
 

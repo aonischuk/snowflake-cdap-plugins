@@ -30,6 +30,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
 
 /**
  * Transforms Snowflake row into {@link StructuredRecord}.
@@ -57,6 +58,7 @@ public class SnowflakeMapToRecordTransformer {
     return builder.build();
   }
 
+  @Nullable
   private Object convertValue(String fieldName, String value, Schema fieldSchema) {
     if (fieldSchema.isNullable()) {
       return convertValue(fieldName, value, fieldSchema.getNonNullable());
@@ -65,7 +67,7 @@ public class SnowflakeMapToRecordTransformer {
     Schema.Type fieldSchemaType = fieldSchema.getType();
 
     // empty string is considered null in csv
-    if (value == null || (value instanceof String && Strings.isNullOrEmpty((String) value))) {
+    if (value == null || Strings.isNullOrEmpty(value)) {
       return null;
     }
 
@@ -74,17 +76,18 @@ public class SnowflakeMapToRecordTransformer {
       switch (logicalType) {
         case DATE:
           // date will be in yyyy-mm-dd format
-          return Math.toIntExact(LocalDate.parse(String.valueOf(value)).toEpochDay());
+          return Math.toIntExact(LocalDate.parse(value).toEpochDay());
         case TIMESTAMP_MICROS:
-          Instant instant = DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(String.valueOf(value), Instant::from);
+          Instant instant = DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(value, Instant::from);
           return TimeUnit.MILLISECONDS.toMicros(instant.toEpochMilli());
         case TIME_MICROS:
-          return TimeUnit.NANOSECONDS.toMicros(LocalTime.parse(String.valueOf(value)).toNanoOfDay());
+          return TimeUnit.NANOSECONDS.toMicros(LocalTime.parse(value).toNanoOfDay());
         case DECIMAL:
-          return new BigDecimal(String.valueOf(value)).setScale(fieldSchema.getScale()).unscaledValue().toByteArray();
+          return new BigDecimal(value).setScale(fieldSchema.getScale()).unscaledValue().toByteArray();
         default:
           throw new IllegalArgumentException(
-            String.format("Field '%s' is of unsupported type '%s'", fieldName, logicalType.getToken()));
+            String.format("Field '%s' is of unsupported type '%s'", fieldSchema.getDisplayName(),
+                          logicalType.getToken()));
       }
     }
 

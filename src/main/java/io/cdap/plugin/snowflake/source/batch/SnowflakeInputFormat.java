@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  */
 public class SnowflakeInputFormat extends InputFormat {
 
-  private static final Gson GSON = new GsonBuilder().create();
+  private static final Gson GSON = new Gson();
 
   @Override
   public List<InputSplit> getSplits(JobContext jobContext) throws IOException {

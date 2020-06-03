@@ -21,7 +21,8 @@ package io.cdap.plugin.snowflake.common.util;
  */
 public class QueryUtil {
 
-  private static final String LIMIT_PATTERN = "(l|L)(i|I)(m|M)(i|I)(t|T) ('|\\$|\\w)+";
+  // Matches "limit <number>". Also "limit $$$$" and "limit ''" which means unlimited in Snowflake.
+  private static final String LIMIT_PATTERN = "(?i)LIMIT (''|\\$\\$\\$\\$|\\d+)";
   private static final String LIMIT_STRING = "limit %s";
 
   private QueryUtil() {

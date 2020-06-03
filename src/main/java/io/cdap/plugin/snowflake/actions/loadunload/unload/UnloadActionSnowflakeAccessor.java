@@ -45,7 +45,7 @@ public class UnloadActionSnowflakeAccessor extends LoadUnloadSnowflakeAccessor {
         sb.append(String.format(" ( %s )", QueryUtil.removeSemicolon(config.getSourceQuery())));
         break;
       default:
-        throw new RuntimeException(String.format("Unknown value for sourceType: '%s'",
+        throw new IllegalStateException(String.format("Unknown value for sourceType: '%s'",
                                                  config.getSourceType()));
     }
 
